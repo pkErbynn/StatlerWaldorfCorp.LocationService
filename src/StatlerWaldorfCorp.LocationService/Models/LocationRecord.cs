@@ -10,5 +10,13 @@ namespace StatlerWaldorfCorp.LocationService.Models
         public long Timestamp { get; set; }
         public Guid MemberId { get; set; }
     }
+
+    public class LocationRecordComparer : Comparer<LocationRecord>
+    {
+        public override int Compare(LocationRecord? x, LocationRecord? y)
+        {
+            return x.Timestamp.CompareTo(y.Timestamp);
+        }
+    }
 }
 
