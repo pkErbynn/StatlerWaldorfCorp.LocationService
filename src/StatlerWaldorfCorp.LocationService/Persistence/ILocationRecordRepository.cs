@@ -7,8 +7,8 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 	{
         LocationRecord Add(LocationRecord locationRecord);
         LocationRecord Update(LocationRecord locationRecord);
-        LocationRecord Get(Guid locationRecordId, Guid memberId);
-        LocationRecord Delete(Guid locationRecordId, Guid memberId);
+        LocationRecord Get(Guid memberId, Guid locationRecordId);
+        LocationRecord Delete(Guid memberId, Guid locationRecordId);
 
         LocationRecord GetLatestLocationForMember(Guid memberId);
 
