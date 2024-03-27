@@ -6,13 +6,11 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 {
 	public class LocationRecordRepository: ILocationRecordRepository
 	{
-        // add psql package ref
-        // Get request
         private LocationDbContext locationDbContext;
 
-		public LocationRecordRepository(LocationDbContext locationDb)
+		public LocationRecordRepository(LocationDbContext locationContext)
 		{
-            this.locationDbContext = locationDb;
+            this.locationDbContext = locationContext;
 		}
 
         public LocationRecord Add(LocationRecord locationRecord)
@@ -43,12 +41,19 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 
         public ICollection<LocationRecord> GetAllLocationRecordsForMember(Guid memberId)
         {
-            throw new NotImplementedException();
+            return this.locationDbContext.locationsRecords
+                .Where(lr => lr.MemberId == memberId)
+                .OrderBy(lr => lr.Timestamp)
+                .ToList();
         }
 
         public LocationRecord GetLatestLocationForMember(Guid memberId)
         {
-            // continue here
+            LocationRecord locationRecord = this.locationDbContext.locationsRecords
+                .Where(lr => lr.MemberId == memberId)
+                .OrderBy(lr => lr.Timestamp)
+                .Last();
+            return locationRecord;
         }
 
         public LocationRecord Update(LocationRecord locationRecord)
