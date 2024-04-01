@@ -30,7 +30,7 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 
         public LocationRecord Get(Guid memberId, Guid locationRecordId)
         {
-            return this.locationDbContext.locationsRecords
+            return this.locationDbContext.LocationRecords
                 .Single(lr => lr.MemberId == memberId && lr.Id == locationRecordId);
         }
 
@@ -41,7 +41,7 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 
         public ICollection<LocationRecord> GetAllLocationRecordsForMember(Guid memberId)
         {
-            return this.locationDbContext.locationsRecords
+            return this.locationDbContext.LocationRecords
                 .Where(lr => lr.MemberId == memberId)
                 .OrderBy(lr => lr.Timestamp)
                 .ToList();
@@ -49,7 +49,7 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 
         public LocationRecord GetLatestLocationForMember(Guid memberId)
         {
-            LocationRecord locationRecord = this.locationDbContext.locationsRecords
+            LocationRecord locationRecord = this.locationDbContext.LocationRecords
                 .Where(lr => lr.MemberId == memberId)
                 .OrderBy(lr => lr.Timestamp)
                 .Last();
