@@ -32,6 +32,13 @@ if (transient)
 else
 {
     var connectionString = configuration.GetValue<string>("postgres:cstr");
+    connectionString = connectionString.Replace("{DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"))
+                                    .Replace("{DB_USER}", Environment.GetEnvironmentVariable("DB_USER"))
+                                    .Replace("{DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD"));
+    Console.WriteLine("con str::", connectionString);
+    var x = Environment.GetEnvironmentVariable("DB_NAME");
+    var x2 = Environment.GetEnvironmentVariable("DB_USER");
+
     builder.Services.AddDbContext<LocationDbContext>(options =>
         options.UseNpgsql(connectionString));
     logger.LogInformation("Using '{0}' for DB connection string.", connectionString);
