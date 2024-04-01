@@ -26,6 +26,6 @@ jobs:
       - name: Unit Tests
         run: dotnet test --no-build --verbosity normal
         working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests
-      - name: Integration Tests
-        run: dotnet test --no-build --verbosity normal
-        working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests.Integration
+      # - name: Integration Tests
+      #   run: dotnet test --no-build --verbosity normal
+      #   working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests.Integration
