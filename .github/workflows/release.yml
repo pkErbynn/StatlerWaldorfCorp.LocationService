@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    uses: ./.github/workflows/continuous-integration.yml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build and tag the Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/statlerwaldorfcorp.locationservice:${{ github.run_number }} .
+        working-directory: ./src/StatlerWaldorfCorp.LocationService
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Publish the image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/statlerwaldorfcorp.locationservice:${{ github.run_number }}
