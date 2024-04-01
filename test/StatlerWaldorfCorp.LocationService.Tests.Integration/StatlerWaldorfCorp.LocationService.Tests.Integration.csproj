@@ -22,6 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\StatlerWaldorfCorp.LocationService\StatlerWaldorfCorp.LocationService.csproj" />
+    <ProjectReference Include="..\..\src\StatlerWaldorfCorp.LocationService\StatlerWaldorfCorp.LocationService.csproj" />
   </ItemGroup>
 </Project>
