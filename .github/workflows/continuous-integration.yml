@@ -20,11 +20,11 @@ jobs:
           POSTGRES_DB: ${{ secrets.DB_NAME }}
         ports:
           - 5432:5432
-        # options: >-
-        #   --health-cmd pg_isready
-        #   --health-interval 10s
-        #   --health-timeout 5s
-        #   --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v3
@@ -47,8 +47,8 @@ jobs:
         working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests
       
       - name: Database Migration (Integration Test Setup)
-      run: dotnet ef database update
-      working-directory: ./src/StatlerWaldorfCorp.LocationService
+        run: dotnet ef database update
+        working-directory: ./src/StatlerWaldorfCorp.LocationService
 
       - name: Integration Tests
         run: dotnet test --no-build --verbosity normal
