@@ -8,19 +8,19 @@ namespace StatlerWaldorfCorp.LocationService.Tests;
 public class LocationRecordControllerTest
 {
     [Fact]
-    public void AddLocation_ShouldAdd()
+    public void AddLocationForMember_ShouldReturnAddedLocations()
     {
         ILocationRecordRepository repository = new InMemoryLocationRecordRepository();
         LocationRecordController controller = new LocationRecordController(repository);
         Guid memberGuid = Guid.NewGuid();
 
-        controller.AddLocation(memberGuid, new LocationRecord()
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
         {
             Id = Guid.NewGuid(),
             MemberId = memberGuid,
             Timestamp = 1,
         });
-        controller.AddLocation(memberGuid, new LocationRecord()
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
         {
             Id = Guid.NewGuid(),
             MemberId = memberGuid,
@@ -51,21 +51,21 @@ public class LocationRecordControllerTest
         LocationRecordController controller = new LocationRecordController(repository);
         Guid memberGuid = Guid.NewGuid();
 
-        controller.AddLocation(memberGuid, new LocationRecord()
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
         {
             Id = Guid.NewGuid(),
             Timestamp = 1,
             MemberId = memberGuid,
             Latitude = 12.3f
         });
-        controller.AddLocation(memberGuid, new LocationRecord()
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
         {
             Id = Guid.NewGuid(),
             Timestamp = 2,
             MemberId = memberGuid,
             Latitude = 23.4f
         });
-        controller.AddLocation(Guid.NewGuid(), new LocationRecord()
+        controller.AddLocationForMember(Guid.NewGuid(), new LocationRecord()
         {
             Id = Guid.NewGuid(),
             Timestamp = 3,
@@ -77,6 +77,62 @@ public class LocationRecordControllerTest
             ((controller.GetLocationsForMember(memberGuid) as ObjectResult).Value as ICollection<LocationRecord>);
 
         Assert.Equal(2, locationRecords.Count());
+    }
+
+
+    [Fact]
+    public void GetLatestLocationForMember_ShouldTrackNullLatestForNewMember()
+    {
+        ILocationRecordRepository repository = new InMemoryLocationRecordRepository();
+        LocationRecordController controller = new LocationRecordController(repository);
+        Guid memberGuid = Guid.NewGuid();
+
+        LocationRecord latest = ((controller.GetLatestLocationForMember(memberGuid) as ObjectResult).Value as LocationRecord);
+
+        Assert.Null(latest);
+    }
+
+    [Fact]
+    public void GetLatestLocationForMember_ShouldTrackLatestLocationsForMember()
+    {
+        ILocationRecordRepository repository = new InMemoryLocationRecordRepository();
+        LocationRecordController controller = new LocationRecordController(repository);
+        Guid memberGuid = Guid.NewGuid();
+
+        Guid latestId = Guid.NewGuid();
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
+        {
+            Id = Guid.NewGuid(),
+            Timestamp = 1,
+            MemberId = memberGuid,
+            Latitude = 12.3f
+        });
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
+        {
+            Id = latestId,
+            Timestamp = 3,
+            MemberId = memberGuid,
+            Latitude = 23.4f
+        });
+        controller.AddLocationForMember(memberGuid, new LocationRecord()
+        {
+            Id = Guid.NewGuid(),
+            Timestamp = 2,
+            MemberId = memberGuid,
+            Latitude = 23.4f
+        });
+        controller.AddLocationForMember(Guid.NewGuid(), new LocationRecord()
+        {
+            Id = Guid.NewGuid(),
+            Timestamp = 4,
+            MemberId = Guid.NewGuid(),
+            Latitude = 23.4f
+        });
+
+        LocationRecord latest = ((controller.GetLatestLocationForMember(memberGuid) as ObjectResult).Value as LocationRecord);
+
+        Assert.NotNull(latest);
+        Assert.Equal(latestId, latest.Id);
     }
 
 }

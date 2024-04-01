@@ -22,7 +22,7 @@ namespace StatlerWaldorfCorp.LocationService.Controllers
         }
 
         [HttpPost("{memberId}")]
-        public IActionResult AddLocation(Guid memberId, [FromBody] LocationRecord locationRecord)
+        public IActionResult AddLocationForMember(Guid memberId, [FromBody] LocationRecord locationRecord)
         {
             locationRepository.Add(locationRecord);
             return this.Created($"/locations/{locationRecord.Id}", locationRecord);
