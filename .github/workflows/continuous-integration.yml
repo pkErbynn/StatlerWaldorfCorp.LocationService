@@ -15,9 +15,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: ${{ secrets.DB_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: integrator
+          POSTGRES_PASSWORD: inteword
+          POSTGRES_DB: locationservice
         ports:
           - 5432:5432
         options: >-
@@ -37,14 +37,18 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore ./src/StatlerWaldorfCorp.LocationService --locked-mode
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build ./src/StatlerWaldorfCorp.LocationService --no-restore
 
       - name: Unit Tests
         run: dotnet test --no-build --verbosity normal
         working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests
+
+      - name: Install EF Core tools
+        run: dotnet tool install --global dotnet-ef
+        if: success() && matrix.config != 'net6.0'
       
       - name: Database Migration (Integration Test Setup)
         run: dotnet ef database update
