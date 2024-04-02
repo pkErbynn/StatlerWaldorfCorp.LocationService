@@ -31,6 +31,8 @@ if (transient)
 }
 else
 {
+
+    // DONT USE ENV VARS FOR NOW
     var connectionString = configuration.GetValue<string>("postgres:cstr");
     connectionString = connectionString.Replace("{DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"))
                                     .Replace("{DB_USER}", Environment.GetEnvironmentVariable("DB_USER"))
