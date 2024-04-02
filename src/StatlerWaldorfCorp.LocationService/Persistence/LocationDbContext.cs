@@ -31,7 +31,13 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<LocationDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetSection("postgres:cstr").Value;
+            connectionString = connectionString.Replace("{DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"))
+                                            .Replace("{DB_USER}", Environment.GetEnvironmentVariable("DB_USER"))
+                                            .Replace("{DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD"));
+
+            Console.WriteLine("conn str:", connectionString);
+
             optionsBuilder.UseNpgsql(connectionString);
 
             return new LocationDbContext(optionsBuilder.Options);

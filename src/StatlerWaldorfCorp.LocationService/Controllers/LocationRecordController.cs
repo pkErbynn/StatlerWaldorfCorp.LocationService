@@ -5,6 +5,43 @@ using StatlerWaldorfCorp.LocationService.Persistence;
 
 namespace StatlerWaldorfCorp.LocationService.Controllers
 {
+    [Route("locations")]
+    public class LocationRecordController : Controller
+    {
+        private ILocationRecordRepository locationRepository;
+
+        public LocationRecordController(ILocationRecordRepository locationRecordRepository)
+        {
+            this.locationRepository = locationRecordRepository;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllLocationForMembers()
+        {
+            return this.Ok(locationRepository.GetAllLocationRecords());
+        }
+
+        [HttpPost("{memberId}")]
+        public IActionResult AddLocationForMember(Guid memberId, [FromBody] LocationRecord locationRecord)
+        {
+            locationRepository.Add(locationRecord);
+            return this.Created($"/locations/{locationRecord.Id}", locationRecord);
+        }
+
+        [HttpGet("{memberId}")]
+        public IActionResult GetLocationsForMember(Guid memberId)
+        {
+            return this.Ok(locationRepository.GetAllLocationRecordsForMember(memberId));
+        }
+
+        [HttpGet("{memberId}/latest")]
+        public IActionResult GetLatestLocationForMember(Guid memberId)
+        {
+            return this.Ok(locationRepository.GetLatestLocationForMember(memberId));
+        }
+    }
+
+    /*
     [Route("locations/{memberId}")]
     public class LocationRecordController : Controller
     {
@@ -34,22 +71,7 @@ namespace StatlerWaldorfCorp.LocationService.Controllers
             return this.Ok(locationRepository.GetLatestLocationForMember(memberId));
         }
     }
-
-    [Route("locations")]
-    public class LocationRecordAllController : Controller
-    {
-        private ILocationRecordRepository locationRepository;
-
-        public LocationRecordAllController(ILocationRecordRepository locationRecordRepository)
-        {
-            this.locationRepository = locationRecordRepository;
-        }
-        [HttpGet]
-        public IActionResult GetAllLocationForMembers()
-        {
-            return this.Ok(locationRepository.GetAllLocationRecords());
-        }
-    }
+    */
 
     /*
 

@@ -11,21 +11,49 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: integrator
+          POSTGRES_PASSWORD: inteword
+          POSTGRES_DB: locationservice
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
+
       - name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore ./src/StatlerWaldorfCorp.LocationService --locked-mode
+
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build ./src/StatlerWaldorfCorp.LocationService --no-restore
+
       - name: Unit Tests
         run: dotnet test --no-build --verbosity normal
         working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests
-      # - name: Integration Tests
-      #   run: dotnet test --no-build --verbosity normal
-      #   working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests.Integration
+
+      - name: Install EF Core tools
+        run: dotnet tool install --global dotnet-ef
+        if: success() && matrix.config != 'net6.0'
+      
+      - name: Database Migration (Integration Test Setup)
+        run: dotnet ef database update
+        working-directory: ./src/StatlerWaldorfCorp.LocationService
+
+      - name: Integration Tests
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests.Integration

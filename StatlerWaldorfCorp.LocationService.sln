@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2BAC52BC-680
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{457C29BB-D5DB-4B2B-BE7F-0F03210EF76C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatlerWaldorfCorp.LocationService.Tests.Integration", "test\StatlerWaldorfCorp.LocationService.Tests.Integration\StatlerWaldorfCorp.LocationService.Tests.Integration.csproj", "{E2D45B09-C479-402B-AEAB-5FC043908028}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{34CFE73C-87B3-4371-BD52-A924C696A44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34CFE73C-87B3-4371-BD52-A924C696A44A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34CFE73C-87B3-4371-BD52-A924C696A44A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D45B09-C479-402B-AEAB-5FC043908028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D45B09-C479-402B-AEAB-5FC043908028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D45B09-C479-402B-AEAB-5FC043908028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D45B09-C479-402B-AEAB-5FC043908028}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,5 +41,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{39C9E406-D6C3-4D31-9D4D-1A5C4997EEE7} = {2BAC52BC-680B-43D9-97A7-AD1E19EE13B3}
 		{34CFE73C-87B3-4371-BD52-A924C696A44A} = {457C29BB-D5DB-4B2B-BE7F-0F03210EF76C}
+		{E2D45B09-C479-402B-AEAB-5FC043908028} = {457C29BB-D5DB-4B2B-BE7F-0F03210EF76C}
 	EndGlobalSection
 EndGlobal
