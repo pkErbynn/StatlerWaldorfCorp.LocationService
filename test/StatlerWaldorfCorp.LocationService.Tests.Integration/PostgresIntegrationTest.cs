@@ -19,13 +19,7 @@ public class PostgresIntegrationTest
             .AddEnvironmentVariables()
             .Build();
 
-        // It's common to use a named connection string in .NET Core/NET 6 projects
         var connectionString = config.GetSection("postgres:cstr").Value;
-        connectionString = connectionString.Replace("{DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"))
-                                        .Replace("{DB_USER}", Environment.GetEnvironmentVariable("DB_USER"))
-                                        .Replace("{DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD"));
-
-
         var optionsBuilder = new DbContextOptionsBuilder<LocationDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
 
