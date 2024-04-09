@@ -110,7 +110,7 @@ public class PostgresIntegrationTest
         LocationRecord target1 = repository.Get(firstRecord.MemberId, firstRecord.Id);
         LocationRecord target2 = repository.Get(firstRecord.MemberId, secondRecord.Id);
 
-        Assert.Equal(initialCount, afterCount);
+        Assert.Equal(initialCount - 1, afterCount);
         Assert.Equal(target1.Id, firstRecord.Id);
         Assert.NotNull(target1);
         Assert.Null(target2);

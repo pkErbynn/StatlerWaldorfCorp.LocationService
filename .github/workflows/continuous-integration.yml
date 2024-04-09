@@ -36,24 +36,41 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
+      # Compile
       - name: Restore dependencies
         run: dotnet restore ./src/StatlerWaldorfCorp.LocationService --locked-mode
 
       - name: Build
         run: dotnet build ./src/StatlerWaldorfCorp.LocationService --no-restore
 
-      - name: Unit Tests
-        run: dotnet test --no-build --verbosity normal
-        working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests
+      # Unit tests
+      - name: Unit Tests Restore
+        run: dotnet restore ./test/StatlerWaldorfCorp.LocationService.Tests
 
+      - name: Unit Tests Build
+        run: dotnet build ./test/StatlerWaldorfCorp.LocationService.Tests --no-restore
+
+      - name: Unit Tests Run
+        run: dotnet test ./test/StatlerWaldorfCorp.LocationService.Tests --no-build --verbosity normal
+
+      # Integration tests
       - name: Install EF Core tools
         run: dotnet tool install --global dotnet-ef
         if: success() && matrix.config != 'net6.0'
       
-      - name: Database Migration (Integration Test Setup)
-        run: dotnet ef database update
+      - name: Integration Migrate
+        run: |
+          export TRANSIENT=false
+          export POSTGRES__CSTR="Host=localhost;Username=integrator;Password=inteword;Database=locationservice"
+          dotnet ef database update
         working-directory: ./src/StatlerWaldorfCorp.LocationService
 
-      - name: Integration Tests
-        run: dotnet test --no-build --verbosity normal
-        working-directory: ./test/StatlerWaldorfCorp.LocationService.Tests.Integration
+      - name: Integration Restore
+        run: dotnet restore ./test/StatlerWaldorfCorp.LocationService.Tests.Integration
+
+      - name: Integration Build
+        run: dotnet build ./test/StatlerWaldorfCorp.LocationService.Tests.Integration --no-restore
+
+      - name: Integration Test
+        run: dotnet test ./test/StatlerWaldorfCorp.LocationService.Tests.Integration --no-build --verbosity normal
+
