@@ -44,13 +44,13 @@ jobs:
         run: dotnet build ./src/StatlerWaldorfCorp.LocationService --no-restore
 
       # Unit tests
-      - name: Unit Tests Restore
+      - name: Restore test dependencies
         run: dotnet restore ./test/StatlerWaldorfCorp.LocationService.Tests
 
-      - name: Unit Tests Build
+      - name: Build tests
         run: dotnet build ./test/StatlerWaldorfCorp.LocationService.Tests --no-restore
 
-      - name: Unit Tests Run
+      - name: Run tests
         run: dotnet test ./test/StatlerWaldorfCorp.LocationService.Tests --no-build --verbosity normal
 
       # Integration tests
@@ -58,10 +58,12 @@ jobs:
         run: dotnet tool install --global dotnet-ef
         if: success() && matrix.config != 'net6.0'
       
-      - name: Integration Migrate
+      - name: Integration tests - migrate database
         run: |
           export TRANSIENT=false
-          export POSTGRES__CSTR="Host=localhost;Username=integrator;Password=inteword;Database=locationservice"
+          export POSTGRES__CSTR="Host=$POSTGRES_PORT_5432_TCP_ADDR"
+          export POSTGRES__CSTR="$POSTGRES__CSTR;Username=integrator;Password=inteword;"
+          export POSTGRES__CSTR="$POSTGRES__CSTR;Port=$POSTGRES_PORT_5432_TCP_PORT;Database=locationservice"
           dotnet ef database update
         working-directory: ./src/StatlerWaldorfCorp.LocationService
 
