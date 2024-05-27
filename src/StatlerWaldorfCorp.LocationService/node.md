@@ -1,5 +1,4 @@
-﻿Certainly! Below is a README.md documentation created based on our chat, covering the relevant points:
-
+﻿Below is a README.md documentation created for page 78-80 clarification.
 ---
 
 # Setting up Communication Between Containers in Docker
