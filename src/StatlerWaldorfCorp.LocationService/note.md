@@ -1,9 +1,9 @@
-﻿Below is a README.md documentation created for page 78-80 clarification.
----
-
+﻿
 # Setting up Communication Between Containers in Docker
 
 This guide explains how to establish communication between a .NET application (specifically, `locationservice`), environment variables, and a local PostgreSQL Docker server.
+
+Below is a README.md documentation created for **page 78-80** clarification.
 
 ## Prerequisites
 
@@ -47,7 +47,7 @@ This guide explains how to establish communication between a .NET application (s
 
    Example:
    ```bash
-export POSTGRES_CSTR="Host=abc;Username=integrator;Password=inteword;Database=locationservice;Port=5432"
+    export POSTGRES_CSTR="Host=abc;Username=integrator;Password=inteword;Database=locationservice;Port=5432"
    ```
 
 2. **Running Docker Containers**:
@@ -60,7 +60,7 @@ export POSTGRES_CSTR="Host=abc;Username=integrator;Password=inteword;Database=lo
    ```
 
    ```bash
-docker run -p 5000:5000 --link some-postgres:abc -e TRANSIENT=false -e PORT=5000 -e POSTGRES_CSTR dotnetcoreservices/locationservice:latest
+    docker run -p 5000:5000 --link some-postgres:abc -e TRANSIENT=false -e PORT=5000 -e POSTGRES_CSTR dotnetcoreservices/locationservice:latest
    ```
    - Explanation of the command components:
 
@@ -115,7 +115,4 @@ By ensuring that the necessary environment variables are set and accessible duri
    docker run -p 5000:5000 --link some-postgres:postgres -e TRANSIENT=false -e PORT=5000 -e POSTGRES_CSTR dotnetcoreservices/locationservice:latest
    ```
 
-These instructions provide a comprehensive overview of setting up communication between Docker containers, configuring environment variables, and running Docker containers for your .NET application and PostgreSQL database. Adjust the commands and configurations as needed for your specific project requirements. If you have any questions or need further assistance, feel free to ask!
-
-======
-
+These instructions provide a comprehensive overview of setting up communication between Docker containers, configuring environment variables, and running Docker containers for your .NET application and PostgreSQL database. 
