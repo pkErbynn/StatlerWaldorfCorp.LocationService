@@ -32,15 +32,6 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
             return list;
         }
 
-        public Dictionary<Guid, SortedList<long, LocationRecord>> GetAllLocationRecords()
-        {
-            if (!locationRecords.Any())
-            {
-                return new Dictionary<Guid, SortedList<long, LocationRecord>>();
-            }
-            return locationRecords;
-        }
-
         public ICollection<LocationRecord> GetAllLocationRecordsForMember(Guid memberId)
         {
             var locationRecords = this.getMemberRecords(memberId);

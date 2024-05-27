@@ -22,7 +22,13 @@ var configuration = builder.Configuration;
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
 ILogger logger = factory.CreateLogger("Program");
 
-var transient = configuration.GetValue<bool?>("transient") ?? true;
+//var transient = configuration.GetValue<bool?>("transient") ?? true;
+
+var transient = true;
+if (configuration.GetSection("transient") != null)
+{
+    transient = bool.Parse(configuration.GetSection("transient").Value);
+}
 
 if (transient)
 {
@@ -31,7 +37,7 @@ if (transient)
 }
 else
 {
-    var connectionString = configuration.GetValue<string>("postgres:cstr");
+    var connectionString = configuration.GetSection("postgres:cstr").Value;
     builder.Services.AddDbContext<LocationDbContext>(options =>
         options.UseNpgsql(connectionString));
     logger.LogInformation("Using '{0}' for DB connection string.", connectionString);

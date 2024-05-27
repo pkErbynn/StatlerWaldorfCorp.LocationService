@@ -32,9 +32,9 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 
             var optionsBuilder = new DbContextOptionsBuilder<LocationDbContext>();
             var connectionString = configuration.GetSection("postgres:cstr").Value;
-            connectionString = connectionString.Replace("{DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"))
-                                            .Replace("{DB_USER}", Environment.GetEnvironmentVariable("DB_USER"))
-                                            .Replace("{DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD"));
+            //connectionString = connectionString.Replace("{DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"))
+            //                                .Replace("{DB_USER}", Environment.GetEnvironmentVariable("DB_USER"))
+            //                                .Replace("{DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD"));
 
             Console.WriteLine("conn str:", connectionString);
 

@@ -13,8 +13,6 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
         LocationRecord GetLatestLocationForMember(Guid memberId);
 
         ICollection<LocationRecord> GetAllLocationRecordsForMember(Guid memberId);
-
-        Dictionary<Guid, SortedList<long, LocationRecord>> GetAllLocationRecords();
     }
 }
 

@@ -36,7 +36,7 @@ namespace StatlerWaldorfCorp.LocationService.Persistence
 
         public Dictionary<Guid, SortedList<long, LocationRecord>> GetAllLocationRecords()
         {
-            throw new NotImplementedException();
+            return new Dictionary<Guid, SortedList<long, LocationRecord>>();
         }
 
         public ICollection<LocationRecord> GetAllLocationRecordsForMember(Guid memberId)
